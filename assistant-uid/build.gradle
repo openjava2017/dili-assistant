@@ -1,0 +1,6 @@
+group = 'com.diligrp'
+archivesBaseName = 'assistant-uid'
+
+dependencies {
+    api project(':assistant-shared')
+}

@@ -1,0 +1,7 @@
+group = 'com.diligrp'
+archivesBaseName = 'assistant-dfs'
+
+dependencies {
+    api project(':assistant-shared')
+    implementation 'com.aliyun.oss:aliyun-sdk-oss:3.15.1'
+}

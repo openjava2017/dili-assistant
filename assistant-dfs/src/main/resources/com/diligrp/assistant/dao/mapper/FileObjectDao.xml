@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.diligrp.assistant.dfs.dao.FileObjectDao">
+    <resultMap id="FileObjectMap" type="com.diligrp.assistant.dfs.model.FileObject">
+        <id column="id" property="id"/>
+        <result column="repository_id" property="repositoryId"/>
+        <result column="pipeline" property="pipeline"/>
+        <result column="file_id" property="fileId"/>
+        <result column="file_name" property="fileName"/>
+        <result column="mime_type" property="mimeType"/>
+        <result column="hits" property="hits"/>
+        <result column="state" property="state"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="modified_time" property="modifiedTime"/>
+    </resultMap>
+
+    <insert id="insertFileObject" parameterType="com.diligrp.assistant.dfs.model.FileObject">
+        INSERT INTO dfs_file_object
+            (repository_id, pipeline, file_id, file_name, mime_type, hits, state, created_time, modified_time)
+        VALUES
+            (#{repositoryId}, #{pipeline}, #{fileId}, #{fileName}, #{mimeType}, #{hits}, #{state}, #{createdTime}, #{modifiedTime})
+    </insert>
+
+    <update id="hitFileObject">
+        UPDATE dfs_file_object SET hits = hits + 1, modified_time = #{modifiedTime}
+        WHERE file_id = #{fileId}
+    </update>
+
+    <update id="deleteFileObject" parameterType="string">
+        DELETE FROM dfs_file_object WHERE file_id = #{fileId}
+    </update>
+</mapper>

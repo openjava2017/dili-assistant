@@ -1,0 +1,19 @@
+group = 'com.diligrp'
+archivesBaseName = 'assistant-boot'
+
+jar.enabled = false
+bootJar {
+    enabled = true
+    archiveBaseName = 'assistant-boot'
+}
+
+dependencies {
+    implementation project(':assistant-dfs')
+    implementation project(':assistant-sms')
+    implementation project(':assistant-data')
+    implementation project(':assistant-product')
+    implementation project(':assistant-logging')
+    implementation project(':assistant-uid')
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:2022.0.0.0-RC2'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:2022.0.0.0-RC2'
+}

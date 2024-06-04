@@ -1,0 +1,10 @@
+rootProject.name = 'dili-assistant'
+include 'assistant-shared'
+include 'assistant-dfs'
+include 'assistant-sms'
+include 'assistant-data'
+include 'assistant-product'
+include 'assistant-logging'
+include 'assistant-uid'
+include 'assistant-boot'
+

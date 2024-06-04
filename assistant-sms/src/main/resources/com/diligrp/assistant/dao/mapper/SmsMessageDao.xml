@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.diligrp.assistant.sms.dao.SmsMessageDao">
+    <resultMap id="SmsMessageMap" type="com.diligrp.assistant.sms.model.SmsMessageDo">
+        <id column="id" property="id"/>
+        <result column="template_id" property="templateId"/>
+        <result column="pipeline" property="pipeline"/>
+        <result column="type" property="type"/>
+        <result column="message_id" property="messageId"/>
+        <result column="telephone" property="telephone"/>
+        <result column="content" property="content"/>
+        <result column="state" property="state"/>
+        <result column="out_message_id" property="outMessageId"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="modified_time" property="modifiedTime"/>
+    </resultMap>
+
+    <insert id="insertSmsMessage" parameterType="com.diligrp.assistant.sms.model.SmsTemplateDo">
+        INSERT INTO sms_message
+            (template_id, pipeline, type, message_id, telephone, content, state, out_message_id, created_time, modified_time)
+        VALUES
+            (#{templateId}, #{pipeline}, #{type}, #{messageId}, #{telephone}, #{content}, #{state}, #{outMessageId}, #{createdTime}, #{modifiedTime})
+    </insert>
+
+    <select id="findSmsMessageById" parameterType="string" resultMap="SmsMessageMap">
+        SELECT * FROM sms_message WHERE message_id = #{messageId}
+    </select>
+
+    <update id="updateSmsMessageState" parameterType="com.diligrp.assistant.sms.model.SmsMessageDo">
+        UPDATE sms_message SET state = #{state}, modified_time = #{modifiedTime}
+        WHERE message_id = #{messageId}
+    </update>
+</mapper>

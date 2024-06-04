@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.diligrp.assistant.dfs.dao.FileRepositoryDao">
+    <resultMap id="FileRepositoryMap" type="com.diligrp.assistant.dfs.model.FileRepository">
+        <id column="id" property="id"/>
+        <result column="repository_id" property="repositoryId"/>
+        <result column="name" property="name"/>
+        <result column="pipeline" property="pipeline"/>
+        <result column="description" property="description"/>
+        <result column="created_time" property="createdTime"/>
+    </resultMap>
+
+    <insert id="insertFileRepository" parameterType="com.diligrp.assistant.dfs.model.FileRepository">
+        INSERT INTO dfs_file_repository
+            (repository_id, name, pipeline, description, created_time)
+        VALUES
+            (#{repositoryId}, #{name}, #{pipeline}, #{description}, #{createdTime})
+    </insert>
+
+    <select id="findFileRepositoryById" parameterType="string" resultMap="FileRepositoryMap">
+        SELECT * FROM dfs_file_repository WHERE repository_id = #{repositoryId}
+    </select>
+    
+    <update id="deleteFileRepository" parameterType="string">
+        DELETE FROM dfs_file_repository WHERE repository_id = #{repositoryId}
+    </update>
+</mapper>

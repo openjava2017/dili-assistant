@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.diligrp.assistant.sms.dao.SmsTemplateDao">
+    <resultMap id="SmsTemplateMap" type="com.diligrp.assistant.sms.model.SmsTemplateDo">
+        <id column="id" property="id"/>
+        <result column="template_id" property="templateId"/>
+        <result column="pipeline" property="pipeline"/>
+        <result column="type" property="type"/>
+        <result column="name" property="name"/>
+        <result column="content" property="content"/>
+        <result column="state" property="state"/>
+        <result column="description" property="description"/>
+        <result column="out_template_id" property="outTemplateId"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="modified_time" property="modifiedTime"/>
+    </resultMap>
+
+    <insert id="insertSmsTemplate" parameterType="com.diligrp.assistant.sms.model.SmsTemplateDo">
+        INSERT INTO sms_template
+            (template_id, pipeline, type, name, content, state, description, out_template_id, created_time, modified_time)
+        VALUES
+            (#{templateId}, #{pipeline}, #{type}, #{name}, #{content}, #{state}, #{description}, #{outTemplateId}, #{createdTime}, #{modifiedTime})
+    </insert>
+
+    <select id="findSmsTemplateById" parameterType="string" resultMap="SmsTemplateMap">
+        SELECT * FROM sms_template WHERE template_id = #{templateId}
+    </select>
+
+    <update id="updateSmsTemplate" parameterType="com.diligrp.assistant.sms.model.SmsTemplateDo">
+        UPDATE sms_template SET modified_time = #{modifiedTime}
+        <if test="type != null">
+            , type = #{type}
+        </if>
+        <if test="name != null">
+            , name = #{name}
+        </if>
+        <if test="content != null">
+            , content = #{content}
+        </if>
+        <if test="state != null">
+            , state = #{state}
+        </if>
+        <if test="description != null">
+            , description = #{description}
+        </if>
+        WHERE template_id = #{templateId}
+    </update>
+    
+    <update id="deleteSmsTemplate" parameterType="string">
+        DELETE FROM sms_template WHERE template_id = #{templateId}
+    </update>
+</mapper>
