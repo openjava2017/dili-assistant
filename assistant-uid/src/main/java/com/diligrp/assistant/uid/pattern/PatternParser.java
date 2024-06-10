@@ -12,16 +12,6 @@ public class PatternParser {
     private TokenizerState state;
     private int index;
 
-    public static void main(String[] args) {
-        String pattern = "{Order}%d{yyMMdd%n2";
-//        String pattern = "Order%d{yyMMdd}%n{2}";
-        PatternParser tokenizer = new PatternParser(pattern);
-        List<Token> tokens = tokenizer.parse();
-        for (Token token : tokens) {
-            System.out.println(token);
-        }
-    }
-
     public PatternParser(String pattern) {
         this.pattern = pattern;
         this.length = pattern.length();
@@ -30,8 +20,8 @@ public class PatternParser {
     }
 
     public List<Token> parse() {
-        List<Token> tokens = new ArrayList();
-        StringBuffer buf = new StringBuffer();
+        List<Token> tokens = new ArrayList<>();
+        StringBuilder buf = new StringBuilder();
 
         while(index < length) {
             char c = pattern.charAt(index);
@@ -64,7 +54,7 @@ public class PatternParser {
         return tokens;
     }
 
-    private void handleLiteralState(char c, List<Token> tokens, StringBuffer buf) {
+    private void handleLiteralState(char c, List<Token> tokens, StringBuilder buf) {
         switch (c) {
             case '%':
                 addLiteralToken(buf, tokens);
@@ -75,7 +65,7 @@ public class PatternParser {
         }
     }
 
-    private void handleKeywordState(char c, List<Token> tokens, StringBuffer buf) {
+    private void handleKeywordState(char c, List<Token> tokens, StringBuilder buf) {
         switch (c) {
             case '%':
                 addKeywordToken(buf, tokens);
@@ -90,7 +80,7 @@ public class PatternParser {
         }
     }
 
-    private void handleOptionState(char c, List<Token> tokens, StringBuffer buf) {
+    private void handleOptionState(char c, List<Token> tokens, StringBuilder buf) {
         switch (c) {
             case '}':
                 addOptionToken(buf, tokens);
@@ -101,22 +91,22 @@ public class PatternParser {
         }
     }
 
-    private void addLiteralToken(StringBuffer buf, List<Token> tokens) {
-        if (buf.length() > 0) {
+    private void addLiteralToken(StringBuilder buf, List<Token> tokens) {
+        if (!buf.isEmpty()) {
             tokens.add(new LiteralToken(buf.toString()));
             buf.setLength(0);
         }
     }
 
-    private void addKeywordToken(StringBuffer buf, List<Token> tokens) {
-        if (buf.length() > 0) {
+    private void addKeywordToken(StringBuilder buf, List<Token> tokens) {
+        if (!buf.isEmpty()) {
             tokens.add(new KeywordToken(buf.toString()));
             buf.setLength(0);
         }
     }
 
-    private void addOptionToken(StringBuffer buf, List<Token> tokens) {
-        if (buf.length() > 0) {
+    private void addOptionToken(StringBuilder buf, List<Token> tokens) {
+        if (!buf.isEmpty()) {
             tokens.add(new OptionToken(buf.toString()));
             buf.setLength(0);
         }

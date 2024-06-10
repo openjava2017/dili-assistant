@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.diligrp.assistant.data.dao.DataDistrictDao">
+    <resultMap id="DataDistrictMap" type="com.diligrp.assistant.data.model.DataDistrict">
+        <id column="id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="name" property="name"/>
+        <result column="short_name" property="shortName"/>
+        <result column="level" property="level"/>
+        <result column="full_name" property="fullName"/>
+        <result column="area_code" property="areaCode"/>
+        <result column="py_code" property="pyCode"/>
+        <result column="short_py" property="shortPy"/>
+        <result column="path" property="path"/>
+        <result column="path_name" property="pathName"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitude" property="latitude"/>
+        <result column="state" property="state"/>
+        <result column="created_time" property="createdTime"/>
+    </resultMap>
+
+    <select id="findDataDistrictById" parameterType="long" resultMap="DataDistrictMap">
+        SELECT * FROM data_district WHERE id = #{id}
+    </select>
+
+    <select id="findParentDistrictById" parameterType="long" resultMap="DataDistrictMap">
+        SELECT
+            parent.*
+        FROM data_district self
+        INNER JOIN data_district parent ON self.parent_id = parent.id
+        WHERE self.id = #{id}
+    </select>
+
+    <select id="findDataDistrictsByIds" resultMap="DataDistrictMap">
+        SELECT * FROM data_district WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        ORDER BY level DESC, id
+    </select>
+
+    <select id="findChildDistrictsById" parameterType="com.diligrp.assistant.data.domain.DistrictPageQuery" resultMap="DataDistrictMap">
+        SELECT * FROM data_district WHERE parent_Id = #{parentId}
+        ORDER BY ID LIMIT #{start}, #{limit}
+    </select>
+
+    <select id="findDataDistrictsByLevel" parameterType="com.diligrp.assistant.data.domain.DistrictPageQuery" resultMap="DataDistrictMap">
+        SELECT * FROM data_district WHERE level = #{level}
+        ORDER BY ID LIMIT #{start}, #{limit}
+    </select>
+</mapper>

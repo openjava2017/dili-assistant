@@ -14,7 +14,7 @@ public class PatternLayout {
     }
 
     public String doLayout(SequenceKey context) {
-        StringBuffer writer = new StringBuffer();
+        StringBuilder writer = new StringBuilder();
         Converter<SequenceKey> converter = head;
 
         while (converter != null) {

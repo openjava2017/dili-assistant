@@ -20,7 +20,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @Service("snowflakeKeyManager")
 public class SnowflakeKeyManager {
 
-    private Lock locker = new ReentrantLock();
+    private final Lock locker = new ReentrantLock();
 
     private final ConcurrentMap<String, KeyGenerator> keyGenerators = new ConcurrentHashMap<>();
 
@@ -58,19 +58,19 @@ public class SnowflakeKeyManager {
     /**
      * 雪花算法ID生成器实现
      */
-    private class SnowflakeKeyGenerator implements KeyGenerator {
+    private static class SnowflakeKeyGenerator implements KeyGenerator {
 
         /**
          * Customer based epoch, unit as second. until 2020-08-08 00:00:00
          */
-        private long epochSeconds = LocalDateTime.of(2020, 8, 8, 0, 0, 0)
-                .toEpochSecond(ZoneOffset.of("+8"));
+        private final long epochSeconds = LocalDateTime.of(2020, 8, 8, 0, 0, 0)
+            .toEpochSecond(ZoneOffset.of("+8"));
 
         /**
          * Stable fields after spring bean initializing
          */
-        private BitsAllocator bitsAllocator;
-        private long workerId;
+        private final BitsAllocator bitsAllocator;
+        private final long workerId;
 
         /**
          * Volatile fields caused by nextId()
@@ -161,7 +161,7 @@ public class SnowflakeKeyManager {
      * Allocate 64 bits for the UID(long)<br>
      * sign (fixed 1bit) -> deltaSecond -> workerId -> service(within the same second)
      */
-    private class BitsAllocator {
+    private static class BitsAllocator {
         /**
          * Total 64 bits
          */
@@ -170,7 +170,7 @@ public class SnowflakeKeyManager {
         /**
          * Bits for [sign-> second-> workId-> service]
          */
-        private int signBits = 1;
+        private final int signBits = 1;
         private final int timestampBits;
         private final int workerIdBits;
         private final int sequenceBits;

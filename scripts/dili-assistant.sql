@@ -20,6 +20,31 @@ CREATE TABLE `data_dictionary` (
 ) ENGINE=InnoDB;
 
 -- --------------------------------------------------------------------
+-- 行政区域-三级
+-- --------------------------------------------------------------------
+DROP TABLE IF EXISTS `data_district`;
+CREATE TABLE `data_district` (
+    `id` BIGINT NOT NULL COMMENT '主键ID',
+    `parent_id` BIGINT NOT NULL COMMENT '父区域ID',
+    `name` VARCHAR(20) NOT NULL COMMENT '名称',
+    `short_name` VARCHAR(20) NOT NULL COMMENT '简称',
+    `level` TINYINT UNSIGNED NOT NULL COMMENT '级别',
+    `full_name` VARCHAR(50) NOT NULL COMMENT '全称',
+    `area_code` VARCHAR(10) COMMENT '区号',
+    `py_code` VARCHAR(40) COMMENT '拼音',
+    `short_py` VARCHAR(20) COMMENT '简拼',
+    `path` VARCHAR(50) NOT NULL COMMENT '路径',
+    `path_name` VARCHAR(100)  COMMENT '路径名称',
+    `longitude` VARCHAR(20) COMMENT '经度',
+    `latitude` VARCHAR(20) COMMENT '纬度',
+    `state` TINYINT UNSIGNED NOT NULL COMMENT '状态',
+    `created_time` DATETIME COMMENT '创建时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_data_district_parentId` (`parent_id`, `name`) USING BTREE,
+    KEY `idx_data_district_level` (`level`, `name`) USING BTREE
+) ENGINE=InnoDB;
+
+-- --------------------------------------------------------------------
 -- 系统ID生成器数据模型
 -- --------------------------------------------------------------------
 DROP TABLE IF EXISTS `uid_sequence_key`;

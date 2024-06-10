@@ -23,7 +23,7 @@ public class SequenceConverter extends Converter<SequenceKey> {
 
     @Override
     public String convert(SequenceKey context) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append(context.getSequence());
         int length = buffer.length();
         if (length < minLength) {
