@@ -15,10 +15,10 @@ public interface DataDistrictService {
     DataDistrict findDataDistrictById(Long id);
 
     /**
-     * 根据ID查询父区域
+     * 根据ID查询父级区域
      *
      * @param id - 区域ID
-     * @return 父区域
+     * @return 父级区域
      */
     DataDistrict findParentDistrictById(Long id);
 
@@ -28,7 +28,7 @@ public interface DataDistrictService {
      * @param id - 区域ID
      * @return 祖先区域
      */
-    List<DataDistrict> findParentDistrictsById(Long id);
+    List<DataDistrict> listParentsById(Long id);
 
     /**
      * 根据父区域ID分页查询子区域
@@ -36,7 +36,7 @@ public interface DataDistrictService {
      * @param query 查询条件
      * @return 子区域
      */
-    List<DataDistrict> findChildDistrictsById(DistrictPageQuery query);
+    List<DataDistrict> listChildrenById(DistrictPageQuery query);
 
     /**
      * 根据区域级别分页查询区域
@@ -44,5 +44,5 @@ public interface DataDistrictService {
      * @param query 查询条件
      * @return 区域
      */
-    List<DataDistrict> findDataDistrictsByLevel(DistrictPageQuery query);
+    List<DataDistrict> listDataDistrictsByLevel(DistrictPageQuery query);
 }

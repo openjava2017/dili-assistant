@@ -7,6 +7,7 @@ import com.diligrp.assistant.sms.type.PipelineType;
 /**
  * 网建短信服务通道
  */
+// TODO: 数据库中进行通道配置
 public class SmsChinesePipeline extends SmsPipeline {
 
     private final SmsChineseHttpClient client;

@@ -8,6 +8,7 @@ import com.diligrp.assistant.dfs.type.PipelineType;
 /**
  * 阿里OSS文件存储服务通道
  */
+// TODO: 数据库中进行通道配置
 public class OssPipeline extends DfsPipeline {
 
     private FileRepositoryClient fileRepositoryClient;

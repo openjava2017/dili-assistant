@@ -1,7 +1,7 @@
 package com.diligrp.assistant.product.domain;
 
-public class CategoryDTO {
-    // 品类ID
+public class CategoryVO {
+    // ID
     private Long id;
     // 父品类ID
     private Long parentId;
@@ -9,14 +9,25 @@ public class CategoryDTO {
     private String name;
     // 别名
     private String alias;
-    // 拼音
-    private String pyCode;
-    // 简拼
-    private String shortCode;
-    // 路径
-    private String path;
+    // 级别
+    private Integer level;
     // 图标
     private String icon;
+    // 路径
+    private String path;
+
+    public static CategoryVO of(Long id, Long parentId, String name, String alias, Integer level, String icon, String path) {
+        CategoryVO category = new CategoryVO();
+        category.id = id;
+        category.parentId = parentId;
+        category.name = name;
+        category.alias = alias;
+        category.level = level;
+        category.icon = icon;
+        category.path = path;
+
+        return category;
+    }
 
     public Long getId() {
         return id;
@@ -50,28 +61,12 @@ public class CategoryDTO {
         this.alias = alias;
     }
 
-    public String getPyCode() {
-        return pyCode;
+    public Integer getLevel() {
+        return level;
     }
 
-    public void setPyCode(String pyCode) {
-        this.pyCode = pyCode;
-    }
-
-    public String getShortCode() {
-        return shortCode;
-    }
-
-    public void setShortCode(String shortCode) {
-        this.shortCode = shortCode;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 
     public String getIcon() {
@@ -80,5 +75,13 @@ public class CategoryDTO {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

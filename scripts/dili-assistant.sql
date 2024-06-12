@@ -31,7 +31,7 @@ CREATE TABLE `data_district` (
     `level` TINYINT UNSIGNED NOT NULL COMMENT '级别',
     `full_name` VARCHAR(50) NOT NULL COMMENT '全称',
     `area_code` VARCHAR(10) COMMENT '区号',
-    `py_code` VARCHAR(40) COMMENT '拼音',
+    `py_code` VARCHAR(60) COMMENT '拼音',
     `short_py` VARCHAR(20) COMMENT '简拼',
     `path` VARCHAR(50) NOT NULL COMMENT '路径',
     `path_name` VARCHAR(100)  COMMENT '路径名称',
@@ -129,4 +129,29 @@ CREATE TABLE `sms_message` (
     UNIQUE KEY `uk_message_id` (`message_id`) USING BTREE,
     KEY `idx_message_templateId` (`template_id`) USING BTREE,
     KEY `idx_message_telephone` (`telephone`) USING BTREE
+) ENGINE=InnoDB;
+
+-- --------------------------------------------------------------------
+-- 商品品类
+-- --------------------------------------------------------------------
+DROP TABLE IF EXISTS `product_category`;
+CREATE TABLE `product_category` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    `parent_id` BIGINT NOT NULL COMMENT '父区域ID',
+    `name` VARCHAR(20) NOT NULL COMMENT '名称',
+    `alias` VARCHAR(20) COMMENT '别名',
+    `level` TINYINT UNSIGNED NOT NULL COMMENT '级别',
+    `py_code` VARCHAR(40) COMMENT '拼音',
+    `short_code` VARCHAR(20) COMMENT '简拼',
+    `path` VARCHAR(40) NOT NULL COMMENT '路径',
+    `icon` VARCHAR(20)  COMMENT '图标',
+    `state` TINYINT UNSIGNED NOT NULL COMMENT '状态',
+    `version` BIGINT NOT NULL DEFAULT 0 COMMENT '数据版本',
+    `created_time` DATETIME COMMENT '创建时间',
+    `modified_time` DATETIME COMMENT '修改时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_product_category_parentId` (`parent_id`, `name`) USING BTREE,
+    KEY `idx_product_category_level` (`level`, `name`) USING BTREE,
+    KEY `idx_product_category_name` (`name`) USING BTREE,
+    KEY `idx_product_category_shortCode` (`short_code`, `py_code`) USING BTREE
 ) ENGINE=InnoDB;

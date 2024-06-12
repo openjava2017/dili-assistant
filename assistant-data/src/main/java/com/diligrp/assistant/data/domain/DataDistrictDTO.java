@@ -11,14 +11,17 @@ public class DataDistrictDTO {
     private Integer level;
     // 全称
     private String fullName;
+    // 路径
+    private String path;
 
-    public static DataDistrictDTO of(Long id, Long parentId, String name, Integer level, String fullName) {
+    public static DataDistrictDTO of(Long id, Long parentId, String name, Integer level, String fullName, String path) {
         DataDistrictDTO district = new DataDistrictDTO();
         district.id = id;
         district.parentId = parentId;
         district.name = name;
         district.level = level;
         district.fullName = fullName;
+        district.path = path;
 
         return district;
     }
@@ -61,5 +64,13 @@ public class DataDistrictDTO {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

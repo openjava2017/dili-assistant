@@ -16,7 +16,7 @@ public interface DataDistrictDao extends MybatisMapperSupport {
 
     List<DataDistrict> findDataDistrictsByIds(List<Long> ids);
 
-    List<DataDistrict> findChildDistrictsById(DistrictPageQuery query);
+    List<DataDistrict> listChildrenById(DistrictPageQuery query);
 
-    List<DataDistrict> findDataDistrictsByLevel(DistrictPageQuery query);
+    List<DataDistrict> listDataDistrictsByLevel(DistrictPageQuery query);
 }

@@ -30,7 +30,7 @@ public class DataDistrictServiceImpl implements DataDistrictService {
     }
 
     @Override
-    public List<DataDistrict> findParentDistrictsById(Long id) {
+    public List<DataDistrict> listParentsById(Long id) {
         DataDistrict self = findDataDistrictById(id);
         String path = self.getPath();
 
@@ -52,12 +52,12 @@ public class DataDistrictServiceImpl implements DataDistrictService {
     }
 
     @Override
-    public List<DataDistrict> findChildDistrictsById(DistrictPageQuery query) {
-        return dataDistrictDao.findChildDistrictsById(query);
+    public List<DataDistrict> listChildrenById(DistrictPageQuery query) {
+        return dataDistrictDao.listChildrenById(query);
     }
 
     @Override
-    public List<DataDistrict> findDataDistrictsByLevel(DistrictPageQuery query) {
-        return dataDistrictDao.findDataDistrictsByLevel(query);
+    public List<DataDistrict> listDataDistrictsByLevel(DistrictPageQuery query) {
+        return dataDistrictDao.listDataDistrictsByLevel(query);
     }
 }

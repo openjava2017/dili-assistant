@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/district")
+@RequestMapping(value = "/api/district")
 public class DataDistrictController {
 
     @Resource
@@ -25,27 +25,27 @@ public class DataDistrictController {
 
     @RequestMapping(value = "/findById.do")
     public Message<DataDistrictDTO> findById(@RequestParam("id") Long id) {
-        DataDistrict district = dataDistrictService.findParentDistrictById(id);
+        DataDistrict district = dataDistrictService.findDataDistrictById(id);
         return Message.success(DataDistrictDTO.of(district.getId(), district.getParentId(),
-            district.getName(), district.getLevel(), district.getFullName()));
+            district.getName(), district.getLevel(), district.getFullName(), district.getPath()));
     }
 
     @RequestMapping(value = "/findParentById.do")
     public Message<DataDistrictDTO> findParentById(@RequestParam("id") Long id) {
         DataDistrict district = dataDistrictService.findParentDistrictById(id);
         return Message.success(DataDistrictDTO.of(district.getId(), district.getParentId(),
-            district.getName(), district.getLevel(), district.getFullName()));
+            district.getName(), district.getLevel(), district.getFullName(), district.getPath()));
     }
 
-    @RequestMapping(value = "/findParentsById.do")
-    public Message<List<DataDistrictDTO>> findParentsById(@RequestParam("id") Long id) {
-        List<DataDistrictDTO> districts = dataDistrictService.findParentDistrictsById(id).stream().map(d ->
-            DataDistrictDTO.of(d.getId(), d.getParentId(), d.getName(), d.getLevel(), d.getFullName()))
+    @RequestMapping(value = "/listParentsById.do")
+    public Message<List<DataDistrictDTO>> listParentsById(@RequestParam("id") Long id) {
+        List<DataDistrictDTO> districts = dataDistrictService.listParentsById(id).stream().map(d ->
+            DataDistrictDTO.of(d.getId(), d.getParentId(), d.getName(), d.getLevel(), d.getFullName(), d.getPath()))
             .collect(Collectors.toList());
         return Message.success(districts);
     }
 
-    @RequestMapping(value = "/findChildrenById.do")
+    @RequestMapping(value = "/listChildrenById.do")
     public Message<List<DataDistrictDTO>> findChildrenById(@RequestBody ListDataDistrict request) {
         AssertUtils.notNull(request.getId(), "id missed");
         AssertUtils.notNull(request.getPageNo(), "pageNo missed");
@@ -55,13 +55,13 @@ public class DataDistrictController {
         query.setId(request.getId());
         query.from(request.getPageNo(), request.getPageSize());
 
-        List<DataDistrictDTO> districts = dataDistrictService.findChildDistrictsById(query).stream().map(d ->
-            DataDistrictDTO.of(d.getId(), d.getParentId(), d.getName(), d.getLevel(), d.getFullName()))
-            .collect(Collectors.toList());;
+        List<DataDistrictDTO> districts = dataDistrictService.listChildrenById(query).stream().map(d ->
+            DataDistrictDTO.of(d.getId(), d.getParentId(), d.getName(), d.getLevel(), d.getFullName(), d.getPath()))
+            .collect(Collectors.toList());
         return Message.success(districts);
     }
 
-    @RequestMapping(value = "/findByLevel.do")
+    @RequestMapping(value = "/listByLevel.do")
     public Message<List<DataDistrictDTO>> findByLevel(@RequestBody ListDataDistrict request) {
         AssertUtils.notNull(request.getLevel(), "level missed");
         AssertUtils.notNull(request.getPageNo(), "pageNo missed");
@@ -71,9 +71,9 @@ public class DataDistrictController {
         query.setLevel(request.getLevel());
         query.from(request.getPageNo(), request.getPageSize());
 
-        List<DataDistrictDTO> districts = dataDistrictService.findDataDistrictsByLevel(query).stream().map(d ->
-            DataDistrictDTO.of(d.getId(), d.getParentId(), d.getName(), d.getLevel(), d.getFullName()))
-            .collect(Collectors.toList());;
+        List<DataDistrictDTO> districts = dataDistrictService.listDataDistrictsByLevel(query).stream().map(d ->
+            DataDistrictDTO.of(d.getId(), d.getParentId(), d.getName(), d.getLevel(), d.getFullName(), d.getPath()))
+            .collect(Collectors.toList());
         return Message.success(districts);
     }
 }

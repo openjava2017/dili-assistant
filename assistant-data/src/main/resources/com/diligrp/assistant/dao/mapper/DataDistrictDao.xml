@@ -22,7 +22,7 @@
     </resultMap>
 
     <select id="findDataDistrictById" parameterType="long" resultMap="DataDistrictMap">
-        SELECT * FROM data_district WHERE id = #{id}
+        SELECT * FROM data_district WHERE id = #{id} AND state &gt; 0
     </select>
 
     <select id="findParentDistrictById" parameterType="long" resultMap="DataDistrictMap">
@@ -30,7 +30,7 @@
             parent.*
         FROM data_district self
         INNER JOIN data_district parent ON self.parent_id = parent.id
-        WHERE self.id = #{id}
+        WHERE self.id = #{id} AND self.state &gt; 0
     </select>
 
     <select id="findDataDistrictsByIds" resultMap="DataDistrictMap">
@@ -38,16 +38,16 @@
         <foreach item="id" collection="list" open="(" separator="," close=")">
             #{id}
         </foreach>
-        ORDER BY level DESC, id
+        AND state &gt; 0 ORDER BY level DESC, id
     </select>
 
-    <select id="findChildDistrictsById" parameterType="com.diligrp.assistant.data.domain.DistrictPageQuery" resultMap="DataDistrictMap">
-        SELECT * FROM data_district WHERE parent_Id = #{parentId}
+    <select id="listChildrenById" parameterType="com.diligrp.assistant.data.domain.DistrictPageQuery" resultMap="DataDistrictMap">
+        SELECT * FROM data_district WHERE parent_Id = #{id} AND state &gt; 0
         ORDER BY ID LIMIT #{start}, #{limit}
     </select>
 
-    <select id="findDataDistrictsByLevel" parameterType="com.diligrp.assistant.data.domain.DistrictPageQuery" resultMap="DataDistrictMap">
-        SELECT * FROM data_district WHERE level = #{level}
+    <select id="listDataDistrictsByLevel" parameterType="com.diligrp.assistant.data.domain.DistrictPageQuery" resultMap="DataDistrictMap">
+        SELECT * FROM data_district WHERE level = #{level} AND state &gt; 0
         ORDER BY ID LIMIT #{start}, #{limit}
     </select>
 </mapper>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.diligrp.assistant.product.dao.ProductCategoryDao">
+    <resultMap id="CategoryMap" type="com.diligrp.assistant.product.model.Category">
+        <id column="id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="name" property="name"/>
+        <result column="alias" property="alias"/>
+        <result column="level" property="level"/>
+        <result column="py_code" property="pyCode"/>
+        <result column="short_code" property="shortCode"/>
+        <result column="path" property="path"/>
+        <result column="icon" property="icon"/>
+        <result column="state" property="state"/>
+        <result column="version" property="version"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="modified_time" property="modifiedTime"/>
+    </resultMap>
+
+    <insert id="insertCategory" parameterType="com.diligrp.assistant.product.model.Category" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO product_category(`parent_id`, `name`, `alias`, `level`, `py_code`, `short_code`, `path`, `icon`, `state`, `version`, `created_time`, `modified_time`)
+        VALUES (#{parentId}, #{name}, #{alias}, #{level}, #{pyCode}, #{shortCode}, #{path}, #{icon}, #{state}, #{version}, #{createdTime}, #{modifiedTime})
+    </insert>
+
+    <update id="updateCategory" parameterType="com.diligrp.assistant.product.model.Category">
+        UPDATE product_category SET version = version + 1
+        <if test="name != null">
+            , name = #{name}
+        </if>
+        <if test="alias != null">
+            , alias = #{alias}
+        </if>
+        <if test="pyCode != null">
+            , py_code = #{pyCode}
+        </if>
+        <if test="shortCode != null">
+            , short_code = #{shortCode}
+        </if>
+        <if test="path != null">
+            , path = #{path}
+        </if>
+        <if test="icon != null">
+            , icon = #{icon}
+        </if>
+        <if test="state != null">
+            , state = #{state}
+        </if>
+        <if test="modifiedTime != null">
+            , modified_time = #{modifiedTime}
+        </if>
+        WHERE id = #{id}
+    </update>
+
+    <select id="findCategoryById" parameterType="long" resultMap="CategoryMap">
+        SELECT * FROM product_category WHERE id = #{id} AND state &gt; 0
+    </select>
+
+    <select id="findParentCategoryById" parameterType="long" resultMap="CategoryMap">
+        SELECT
+            parent.*
+        FROM product_category self
+        INNER JOIN product_category parent ON self.parent_id = parent.id
+        WHERE self.id = #{id} AND self.state &gt; 0
+    </select>
+
+    <select id="findCategoriesByIds" resultMap="CategoryMap">
+        SELECT * FROM product_category WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        AND state &gt; 0 ORDER BY level DESC, id
+    </select>
+
+    <select id="listChildrenById" parameterType="com.diligrp.assistant.product.domain.CategoryPageQuery" resultMap="CategoryMap">
+        SELECT * FROM product_category WHERE parent_Id = #{id} AND state &gt; 0
+        ORDER BY ID LIMIT #{start}, #{limit}
+    </select>
+
+    <select id="countChildrenById" parameterType="long" resultType="long">
+        SELECT COUNT(*) FROM product_category WHERE parent_Id = #{id} AND state &gt; 0
+    </select>
+
+    <select id="listCategoriesByLevel" parameterType="com.diligrp.assistant.product.domain.CategoryPageQuery" resultMap="CategoryMap">
+        SELECT * FROM product_category WHERE level = #{level} AND state &gt; 0
+        ORDER BY ID LIMIT #{start}, #{limit}
+    </select>
+</mapper>
